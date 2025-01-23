@@ -9,7 +9,7 @@ export default function RegisterPage() {
           Register
         </h1>
         <RegisterForm />
-        <div className='mt-4 flex justify-center text-sm text-gray-600'>
+        <div className='text-md mt-4 flex justify-center text-gray-600'>
           <p className='mr-2'>Already have an account?</p>
           <Link
             href='/login'
