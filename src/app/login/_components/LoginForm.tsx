@@ -1,8 +1,10 @@
 'use client';
 
+import axiosInstance from '@/app/api/axiosInstance';
 import { useLoginMutation } from '@/hooks/auth/useAuthMutation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getUserInfo } from '../api';
 
 interface FormData {
   email: string;
@@ -35,11 +37,21 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isSuccess && data?.accessToken) {
-      sessionStorage.setItem('accessToken', data.accessToken);
-      console.log('Access token saved to sessionStorage:', data.accessToken);
-      router.push('/');
+      try {
+        const getUserInfoWithAccessToken = async () => {
+          sessionStorage.setItem('accessToken', data.accessToken);
+          const userInfo = await getUserInfo(data.accessToken);
+          console.log('테스트!', userInfo);
+          localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          router.push('/');
+        };
+
+        getUserInfoWithAccessToken();
+      } catch (e) {
+        console.error(e);
+      }
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data, router]);
 
   return (
     <div className='flex flex-col'>

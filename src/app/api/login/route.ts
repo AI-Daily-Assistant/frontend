@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import apiClient from '../apiClient';
 import { cookies } from 'next/headers';
+import axiosInstance from '../axiosInstance';
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 로그인 요청 보내기
-    const response = await apiClient.post('/api/auth/login', {
+    const response = await axiosInstance.post('/api/auth/login', {
       email,
       password,
     });

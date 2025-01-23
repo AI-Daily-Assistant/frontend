@@ -1,4 +1,4 @@
-import apiClient from '../api/apiClient';
+import axiosInstance from '../api/axiosInstance';
 
 // 회원가입 요청
 export const registerUser = async (
@@ -8,7 +8,7 @@ export const registerUser = async (
   age: number,
 ) => {
   try {
-    const response = await apiClient.post('/api/register', {
+    const response = await axiosInstance.post('/api/register', {
       email,
       password,
       name,
