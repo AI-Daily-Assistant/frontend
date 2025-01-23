@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { registerUser } from './api';
+import { useRegisterMutation } from '@/hooks/useAuthMutation';
 
 interface FormData {
   email: string;
@@ -14,6 +14,9 @@ export default function RegisterPage() {
     password: '',
   });
 
+  const { mutate, isPending, isError, error, isSuccess } =
+    useRegisterMutation();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,8 +27,7 @@ export default function RegisterPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Submitted Data:', formData);
-    registerUser(formData.email, formData.password);
+    mutate(formData);
   };
 
   return (
@@ -34,6 +36,19 @@ export default function RegisterPage() {
         <h1 className='mb-8 text-center text-2xl font-bold text-gray-700'>
           Register
         </h1>
+
+        {isPending && (
+          <p className='mb-4 text-center text-blue-500'>회원가입 진행 중...</p>
+        )}
+
+        {isError && (
+          <p className='mb-4 text-center text-red-500'>{error?.message}</p>
+        )}
+
+        {isSuccess && (
+          <p className='mb-4 text-center text-green-500'>회원가입 성공!</p>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className='mb-4 flex flex-col'>
             <label
@@ -74,8 +89,9 @@ export default function RegisterPage() {
           <button
             type='submit'
             className='w-full rounded-md bg-blue-500 py-2 font-semibold text-white transition duration-200 hover:bg-blue-600'
+            disabled={isPending}
           >
-            Register
+            {isPending ? 'Registering...' : 'Register'}
           </button>
         </form>
       </div>
