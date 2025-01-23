@@ -37,15 +37,14 @@ apiClient.interceptors.response.use(
         try {
           // 백엔드의 리프레시 토큰 API 호출
           const { data } = await axios.post(
-            '/api/refreshToken',
+            '/api/auth/refresh',
             {},
             { withCredentials: true },
           );
 
-          const newAccessToken = data.accessToken;
+          const newAccessToken = data.refreshToken;
           localStorage.setItem('accessToken', newAccessToken);
 
-          // 기존 요청을 새로운 토큰으로 재시도
           originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return apiClient(originalRequest);
         } catch (refreshError) {
