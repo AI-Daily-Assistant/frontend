@@ -1,10 +1,3 @@
-import Navbar from '../components/layouts/Header/Navbar';
-
-export default function Home() {
-  return (
-    <div>
-      <Navbar />
-      <div>야호~~</div>
-    </div>
-  );
+export default async function Home() {
+  return <div></div>;
 }

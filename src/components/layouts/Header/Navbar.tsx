@@ -11,8 +11,8 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className='bg-white px-6 shadow-md'>
-      <div className='flex h-16 items-center justify-between'>
+    <nav className='fixed left-0 right-0 top-0 z-50 h-[80px] w-full bg-white shadow-md'>
+      <div className='flex h-full w-full items-center justify-between px-6'>
         <Link
           href='/'
           className='transform text-xl font-bold duration-200 hover:scale-110'
@@ -43,9 +43,14 @@ const Navbar = () => {
 
       {/* 모바일 메뉴 */}
       {isMobileMenuOpen && (
-        <div className='py-4 lg:hidden'>
+        <div className='bg-white py-4 shadow-md lg:hidden'>
           {menuItems.map((item, idx) => (
-            <MobileMenuItems key={idx} item={item} />
+            <React.Fragment key={idx}>
+              <MobileMenuItems item={item} />
+              {idx !== menuItems.length - 1 && (
+                <hr className='my-2 border-t border-gray-300' />
+              )}
+            </React.Fragment>
           ))}
         </div>
       )}
