@@ -1,7 +1,8 @@
 'use client';
 
 import { useLoginMutation } from '@/hooks/auth/useAuthMutation';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface FormData {
   email: string;
@@ -17,6 +18,8 @@ export default function LoginForm() {
   const { data, mutate, isPending, isError, error, isSuccess } =
     useLoginMutation();
 
+  const router = useRouter();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -30,12 +33,18 @@ export default function LoginForm() {
     mutate(formData);
   };
 
-  console.log('토큰 성공????????????@@@@@@@@', data);
+  useEffect(() => {
+    if (isSuccess && data?.accessToken) {
+      sessionStorage.setItem('accessToken', data.accessToken);
+      console.log('Access token saved to sessionStorage:', data.accessToken);
+      router.push('/');
+    }
+  }, [isSuccess, data]);
 
   return (
     <div className='flex flex-col'>
       {isPending && (
-        <p className='mb-4 text-center text-blue-500'>로그인인 진행 중...</p>
+        <p className='mb-4 text-center text-blue-500'>로그인 진행 중...</p>
       )}
       {isError && (
         <p className='mb-4 text-center text-red-500'>{error?.message}</p>

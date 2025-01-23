@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import apiClient from '../apiClient';
+import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,13 +13,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 로그인 요청 보내기
     const response = await apiClient.post('/api/auth/login', {
       email,
       password,
     });
 
-    // 백엔드 API의 응답 반환
-    return NextResponse.json(response.data, { status: response.status });
+    const { accessToken, refreshToken } = response.data;
+
+    // refreshToken을 쿠키에 저장
+    const cookieStore = await cookies();
+    cookieStore.set('refreshToken', refreshToken, {
+      httpOnly: true, // 클라이언트에서 접근 불가
+      secure: process.env.NODE_ENV === 'production', // 프로덕션에서는 HTTPS 사용
+      sameSite: 'strict', // 크로스사이트 요청 방지
+      path: '/', // 쿠키를 모든 경로에서 사용 가능
+      maxAge: 60 * 60 * 24 * 7, // 7일 동안 유지
+    });
+
+    return NextResponse.json({ accessToken }, { status: response.status });
   } catch (error: any) {
     console.error('로그인 요청 중 오류 발생:', error);
 

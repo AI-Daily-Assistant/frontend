@@ -3,7 +3,7 @@ import apiClient from '../apiClient';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const { email, password, name, age } = await req.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -15,6 +15,8 @@ export async function POST(req: NextRequest) {
     const response = await apiClient.post('/api/auth/register', {
       email,
       password,
+      name,
+      age,
     });
 
     // 백엔드 API의 응답 반환

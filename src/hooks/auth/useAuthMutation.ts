@@ -2,6 +2,13 @@ import { loginUser } from '@/app/login/api';
 import { registerUser } from '@/app/register/api';
 import { useMutation } from '@tanstack/react-query';
 
+interface FormData {
+  email: string;
+  password: string;
+  name: string;
+  age: number;
+}
+
 export const useLoginMutation = () => {
   return useMutation({
     mutationFn: async (formData: { email: string; password: string }) =>
@@ -17,8 +24,13 @@ export const useLoginMutation = () => {
 
 export const useRegisterMutation = () => {
   return useMutation({
-    mutationFn: async (formData: { email: string; password: string }) =>
-      await registerUser(formData.email, formData.password),
+    mutationFn: async (formData: FormData) =>
+      await registerUser(
+        formData.email,
+        formData.password,
+        formData.name,
+        formData.age,
+      ),
     onSuccess: () => {
       console.log('회원가입 성공!');
     },

@@ -6,12 +6,16 @@ import { useState } from 'react';
 interface FormData {
   email: string;
   password: string;
+  name: string;
+  age: number;
 }
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
+    name: '',
+    age: 0,
   });
 
   const { mutate, isPending, isError, error, isSuccess } =
@@ -76,6 +80,44 @@ export default function RegisterForm() {
             value={formData.password}
             onChange={handleChange}
             placeholder='Enter your password'
+            className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
+            required
+          />
+        </div>
+
+        <div className='mb-6 flex flex-col'>
+          <label
+            htmlFor='name'
+            className='mb-2 text-sm font-medium text-gray-600'
+          >
+            Name
+          </label>
+          <input
+            id='name'
+            name='name'
+            type='text'
+            value={formData.name}
+            onChange={handleChange}
+            placeholder='Enter your Name'
+            className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
+            required
+          />
+        </div>
+
+        <div className='mb-6 flex flex-col'>
+          <label
+            htmlFor='age'
+            className='mb-2 text-sm font-medium text-gray-600'
+          >
+            Age
+          </label>
+          <input
+            id='age'
+            name='age'
+            type='number'
+            value={formData.age}
+            onChange={handleChange}
+            placeholder='Enter your Age'
             className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
             required
           />

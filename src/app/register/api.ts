@@ -1,16 +1,18 @@
 import apiClient from '../api/apiClient';
 
-interface RegisterData {
-  email: string;
-  password: string;
-}
-
 // 회원가입 요청
-export const registerUser = async (email: string, password: string) => {
+export const registerUser = async (
+  email: string,
+  password: string,
+  name: string,
+  age: number,
+) => {
   try {
-    const response = await apiClient.post<RegisterData>('/api/register', {
+    const response = await apiClient.post('/api/register', {
       email,
       password,
+      name,
+      age,
     });
     return response.data;
   } catch (error: any) {
