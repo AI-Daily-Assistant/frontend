@@ -1,10 +1,8 @@
 'use client';
 
-import axiosInstance from '@/app/api/axiosInstance';
-import { useLoginMutation } from '@/hooks/auth/useAuthMutation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getUserInfo } from '../api';
+import { getUserInfo, loginUser } from '../api';
 
 interface FormData {
   email: string;
@@ -16,9 +14,10 @@ export default function LoginForm() {
     email: '',
     password: '',
   });
-
-  const { data, mutate, isPending, isError, error, isSuccess } =
-    useLoginMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<{ accessToken: string } | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const router = useRouter();
 
@@ -30,41 +29,44 @@ export default function LoginForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate(formData);
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await loginUser(formData);
+      if (response.accessToken) {
+        setData(response);
+        setIsSuccess(true);
+      }
+    } catch (err) {
+      setError('Failed to login. Please check your credentials.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     if (isSuccess && data?.accessToken) {
-      try {
-        const getUserInfoWithAccessToken = async () => {
+      const getUserInfoWithAccessToken = async () => {
+        try {
           sessionStorage.setItem('accessToken', data.accessToken);
           const userInfo = await getUserInfo(data.accessToken);
-          console.log('테스트!', userInfo);
+          console.log('User Info:', userInfo);
           localStorage.setItem('userInfo', JSON.stringify(userInfo));
           router.push('/');
-        };
+        } catch (error) {
+          console.error('Failed to fetch user info:', error);
+        }
+      };
 
-        getUserInfoWithAccessToken();
-      } catch (e) {
-        console.error(e);
-      }
+      getUserInfoWithAccessToken();
     }
   }, [isSuccess, data, router]);
 
   return (
     <div className='flex flex-col'>
-      {isPending && (
-        <p className='mb-4 text-center text-blue-500'>로그인 진행 중...</p>
-      )}
-      {isError && (
-        <p className='mb-4 text-center text-red-500'>{error?.message}</p>
-      )}
-      {isSuccess && (
-        <p className='mb-4 text-center text-green-500'>로그인 성공!</p>
-      )}
-
       <form onSubmit={handleSubmit} className='flex flex-col'>
         <div className='mb-4 flex flex-col'>
           <label
@@ -104,12 +106,14 @@ export default function LoginForm() {
           />
         </div>
 
+        {error && <p className='mb-4 text-sm text-red-500'>{error}</p>}
+
         <button
           type='submit'
-          className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600'
-          disabled={isPending}
+          className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600 disabled:bg-gray-400'
+          disabled={isLoading}
         >
-          {isPending ? 'Login...' : 'Login'}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { registerUser } from '../api';
+import { useRouter } from 'next/navigation';
 
 interface FormData {
   email: string;
@@ -19,6 +20,8 @@ export default function RegisterForm() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,6 +45,7 @@ export default function RegisterForm() {
         name: '',
         age: 0,
       });
+      router.push('/login');
     } catch (err) {
       setError('Failed to register. Please try again.');
     } finally {

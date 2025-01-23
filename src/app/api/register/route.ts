@@ -6,11 +6,16 @@ export async function POST(req: NextRequest) {
     const { formData } = await req.json();
     const { email, password, name, age } = formData;
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: '이메일과 비밀번호를 입력해야 합니다.' },
-        { status: 400 },
-      );
+    // 필수 필드 검증
+    const errors: Record<string, string> = {};
+
+    if (!email) errors.email = '이메일을 입력해야 합니다.';
+    if (!password) errors.password = '비밀번호를 입력해야 합니다.';
+    if (!name) errors.name = '이름을 입력해야 합니다.';
+    if (!age) errors.age = '나이를 입력해야 합니다.';
+
+    if (Object.keys(errors).length > 0) {
+      return NextResponse.json({ errors }, { status: 400 });
     }
 
     const response = await axiosInstance.post('/api/auth/register', {

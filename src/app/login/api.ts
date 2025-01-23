@@ -1,11 +1,14 @@
 import axiosInstance from '../api/axiosInstance';
 
-// 로그인 요청
-export const loginUser = async (email: string, password: string) => {
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+export const loginUser = async (formData: LoginData) => {
   try {
     const response = await axiosInstance.post('/api/login', {
-      email,
-      password,
+      formData,
     });
     return response.data;
   } catch (error: any) {

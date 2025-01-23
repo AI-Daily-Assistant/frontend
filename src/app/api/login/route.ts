@@ -4,7 +4,8 @@ import axiosInstance from '../axiosInstance';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const { formData } = await req.json();
+    const { email, password } = formData;
 
     if (!email || !password) {
       return NextResponse.json(
