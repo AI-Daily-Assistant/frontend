@@ -1,6 +1,6 @@
 'use client';
 
-import { useRegisterMutation } from '@/hooks/auth/useAuthMutation';
+import { useLoginMutation } from '@/hooks/auth/useAuthMutation';
 import { useState } from 'react';
 
 interface FormData {
@@ -14,8 +14,8 @@ export default function LoginForm() {
     password: '',
   });
 
-  const { mutate, isPending, isError, error, isSuccess } =
-    useRegisterMutation();
+  const { data, mutate, isPending, isError, error, isSuccess } =
+    useLoginMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +29,8 @@ export default function LoginForm() {
     e.preventDefault();
     mutate(formData);
   };
+
+  console.log('토큰 성공????????????@@@@@@@@', data);
 
   return (
     <div className='flex flex-col'>

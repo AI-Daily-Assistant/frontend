@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = await apiClient.post('/api/auth/register', {
+    const response = await apiClient.post('/api/auth/login', {
       email,
       password,
     });
@@ -20,14 +20,15 @@ export async function POST(req: NextRequest) {
     // 백엔드 API의 응답 반환
     return NextResponse.json(response.data, { status: response.status });
   } catch (error: any) {
-    console.error('회원가입 요청 중 오류 발생:', error);
+    console.error('로그인 요청 중 오류 발생:', error);
 
     if (error.response?.status === 400) {
       return NextResponse.json(
         {
           errorCode: error.response.data?.errorCode || 'BAD_REQUEST',
           errorMessage:
-            error.response.data?.errorMessage || '이메일이 이미 존재합니다.',
+            error.response.data?.errorMessage ||
+            '로그인 정보가 일치하지 않습니다.',
         },
         { status: 400 },
       );
