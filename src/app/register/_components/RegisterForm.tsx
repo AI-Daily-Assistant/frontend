@@ -31,57 +31,56 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex flex-col'>
       {isPending && (
         <p className='mb-4 text-center text-blue-500'>회원가입 진행 중...</p>
       )}
-
       {isError && (
         <p className='mb-4 text-center text-red-500'>{error?.message}</p>
       )}
-
       {isSuccess && (
         <p className='mb-4 text-center text-green-500'>회원가입 성공!</p>
       )}
-      <form onSubmit={handleSubmit} className='flex h-full flex-col'>
-        <div className='flex flex-grow flex-col px-8'>
-          <div className='mb-4 flex flex-col'>
-            <label
-              htmlFor='email'
-              className='mb-2 text-sm font-medium text-gray-600'
-            >
-              Email
-            </label>
-            <input
-              id='email'
-              name='email'
-              type='email'
-              value={formData.email}
-              onChange={handleChange}
-              placeholder='example@example.com'
-              className='rounded-md p-2 outline-none ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400'
-              required
-            />
-          </div>
-          <div className='mb-4 flex flex-col'>
-            <label
-              htmlFor='password'
-              className='mb-2 text-sm font-medium text-gray-600'
-            >
-              Password
-            </label>
-            <input
-              id='password'
-              name='password'
-              type='password'
-              value={formData.password}
-              onChange={handleChange}
-              placeholder='Enter your password'
-              className='rounded-md p-2 outline-none ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400'
-              required
-            />
-          </div>
+
+      <form onSubmit={handleSubmit} className='flex flex-col'>
+        <div className='mb-4 flex flex-col'>
+          <label
+            htmlFor='email'
+            className='mb-2 text-sm font-medium text-gray-600'
+          >
+            Email
+          </label>
+          <input
+            id='email'
+            name='email'
+            type='email'
+            value={formData.email}
+            onChange={handleChange}
+            placeholder='example@example.com'
+            className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
+            required
+          />
         </div>
+
+        <div className='mb-6 flex flex-col'>
+          <label
+            htmlFor='password'
+            className='mb-2 text-sm font-medium text-gray-600'
+          >
+            Password
+          </label>
+          <input
+            id='password'
+            name='password'
+            type='password'
+            value={formData.password}
+            onChange={handleChange}
+            placeholder='Enter your password'
+            className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
+            required
+          />
+        </div>
+
         <button
           type='submit'
           className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600'
