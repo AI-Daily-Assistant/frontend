@@ -35,13 +35,13 @@ export default function LoginForm() {
   return (
     <div className='flex flex-col'>
       {isPending && (
-        <p className='mb-4 text-center text-blue-500'>회원가입 진행 중...</p>
+        <p className='mb-4 text-center text-blue-500'>로그인인 진행 중...</p>
       )}
       {isError && (
         <p className='mb-4 text-center text-red-500'>{error?.message}</p>
       )}
       {isSuccess && (
-        <p className='mb-4 text-center text-green-500'>회원가입 성공!</p>
+        <p className='mb-4 text-center text-green-500'>로그인 성공!</p>
       )}
 
       <form onSubmit={handleSubmit} className='flex flex-col'>
@@ -88,7 +88,7 @@ export default function LoginForm() {
           className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600'
           disabled={isPending}
         >
-          {isPending ? 'Registering...' : 'Register'}
+          {isPending ? 'Login...' : 'Login'}
         </button>
       </form>
     </div>
