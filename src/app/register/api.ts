@@ -1,18 +1,17 @@
 import axiosInstance from '../api/axiosInstance';
 
+interface RegisterUser {
+  email: string;
+  password: string;
+  name: string;
+  age: number;
+}
+
 // 회원가입 요청
-export const registerUser = async (
-  email: string,
-  password: string,
-  name: string,
-  age: number,
-) => {
+export const registerUser = async (formData: RegisterUser) => {
   try {
     const response = await axiosInstance.post('/api/register', {
-      email,
-      password,
-      name,
-      age,
+      formData,
     });
     return response.data;
   } catch (error: any) {

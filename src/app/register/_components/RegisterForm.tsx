@@ -1,7 +1,7 @@
 'use client';
 
-import { useRegisterMutation } from '@/hooks/auth/useAuthMutation';
 import { useState } from 'react';
+import { registerUser } from '../api';
 
 interface FormData {
   email: string;
@@ -17,35 +17,40 @@ export default function RegisterForm() {
     name: '',
     age: 0,
   });
-
-  const { mutate, isPending, isError, error, isSuccess } =
-    useRegisterMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === 'age' ? Number(value) : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate(formData);
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await registerUser(formData);
+      alert('Registration successful!');
+      setFormData({
+        email: '',
+        password: '',
+        name: '',
+        age: 0,
+      });
+    } catch (err) {
+      setError('Failed to register. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className='flex flex-col'>
-      {isPending && (
-        <p className='mb-4 text-center text-blue-500'>회원가입 진행 중...</p>
-      )}
-      {isError && (
-        <p className='mb-4 text-center text-red-500'>{error?.message}</p>
-      )}
-      {isSuccess && (
-        <p className='mb-4 text-center text-green-500'>회원가입 성공!</p>
-      )}
-
       <form onSubmit={handleSubmit} className='flex flex-col'>
         <div className='mb-4 flex flex-col'>
           <label
@@ -98,7 +103,7 @@ export default function RegisterForm() {
             type='text'
             value={formData.name}
             onChange={handleChange}
-            placeholder='Enter your Name'
+            placeholder='Enter your name'
             className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
             required
           />
@@ -117,18 +122,20 @@ export default function RegisterForm() {
             type='number'
             value={formData.age}
             onChange={handleChange}
-            placeholder='Enter your Age'
+            placeholder='Enter your age'
             className='w-full rounded-md border border-gray-300 p-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400'
             required
           />
         </div>
 
+        {error && <p className='mb-4 text-sm text-red-500'>{error}</p>}
+
         <button
           type='submit'
-          className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600'
-          disabled={isPending}
+          className='w-full rounded-md bg-blue-500 py-3 font-semibold text-white transition duration-200 hover:bg-blue-600 disabled:bg-gray-400'
+          disabled={isLoading}
         >
-          {isPending ? 'Registering...' : 'Register'}
+          {isLoading ? 'Registering...' : 'Register'}
         </button>
       </form>
     </div>
