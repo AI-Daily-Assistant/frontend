@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { registerUser } from './api';
 
 interface FormData {
   email: string;
@@ -13,7 +14,6 @@ export default function RegisterPage() {
     password: '',
   });
 
-  // 입력값 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -25,7 +25,7 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Submitted Data:', formData);
-    // API 요청 로직 추가
+    registerUser(formData.email, formData.password);
   };
 
   return (
