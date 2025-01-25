@@ -1,8 +1,10 @@
 'use client';
 
-import { apiRequest } from '@/app/api/axiosInstance';
+import { apiRequest } from '@/app/api/apiRequest';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { loginUser } from '../api';
 
 interface FormData {
   email: string;
@@ -35,7 +37,7 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const response = await apiRequest('POST', '/api/login', formData);
+      const response = await loginUser(formData);
       if (response.accessToken) {
         setData(response);
         setIsSuccess(true);
@@ -53,6 +55,7 @@ export default function LoginForm() {
         try {
           sessionStorage.setItem('accessToken', data.accessToken);
           const userInfo = await apiRequest('GET', '/api/user');
+
           console.log('User Info:', userInfo);
           localStorage.setItem('userInfo', JSON.stringify(userInfo));
           router.push('/');

@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '../apiRequest';
 
 export async function POST(req: NextRequest) {
   try {
-    const { formData } = await req.json();
+    const formData = await req.json();
+
+    console.log('테스트', formData);
+
     const { email, password, name, age } = formData;
 
     // 필수 필드 검증
@@ -18,12 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const response = await axiosInstance.post('/api/auth/register', {
-      email,
-      password,
-      name,
-      age,
-    });
+    const response = await axiosInstance('/api/auth/register', formData);
 
     // 백엔드 API의 응답 반환
     return NextResponse.json(response.data, { status: response.status });

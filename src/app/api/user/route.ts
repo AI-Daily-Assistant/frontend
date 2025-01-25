@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '../apiRequest';
 
 export async function GET(req: NextRequest) {
   try {
