@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiRequest } from '@/app/api/axiosInstance';
+import { apiRequest } from '@/app/api/apiRequest';
+import { registerUser } from '../api';
 
 interface FormData {
   email: string;
@@ -37,7 +38,7 @@ export default function RegisterForm() {
     setError(null);
 
     try {
-      await apiRequest('POST', '/api/register', formData);
+      await registerUser(formData);
       alert('Registration successful!');
       setFormData({
         email: '',

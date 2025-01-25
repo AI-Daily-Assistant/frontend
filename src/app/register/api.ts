@@ -1,22 +1,22 @@
-// import axiosInstance from '../api/axiosInstance';
+import axios from 'axios';
 
-// interface RegisterUser {
-//   email: string;
-//   password: string;
-//   name: string;
-//   age: number;
-// }
+interface RegisterUser {
+  email: string;
+  password: string;
+  name: string;
+  age: number;
+}
 
-// // 회원가입 요청
-// export const registerUser = async (formData: RegisterUser) => {
-//   try {
-//     const response = await axiosInstance.post('/api/register', {
-//       formData
-//     });
-//     return response.data;
-//   } catch (error: any) {
-//     throw new Error(
-//       error.response?.data?.errorMessage || '회원가입에 실패했습니다.',
-//     );
-//   }
-// };
+// 회원가입 요청
+export const registerUser = async (formData: RegisterUser) => {
+  try {
+    const response = await axios.post('/api/register', {
+      formData,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.errorMessage || '회원가입에 실패했습니다.',
+    );
+  }
+};

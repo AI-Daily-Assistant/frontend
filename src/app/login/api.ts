@@ -1,4 +1,5 @@
-import axiosInstance from '../api/axiosInstance';
+import axios from 'axios';
+import axiosInstance from '../api/apiRequest';
 
 interface LoginData {
   email: string;
@@ -7,7 +8,7 @@ interface LoginData {
 
 export const loginUser = async (formData: LoginData) => {
   try {
-    const response = await axiosInstance.post('/api/login', {
+    const response = await axios.post('/api/login', {
       formData,
     });
     return response.data;
@@ -18,20 +19,20 @@ export const loginUser = async (formData: LoginData) => {
   }
 };
 
-// 유저 정보 반환
-export const getUserInfo = async (accessToken: string) => {
-  try {
-    const response = await axiosInstance.get('/api/user', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+// // 유저 정보 반환
+// export const getUserInfo = async (accessToken: string) => {
+//   try {
+//     const response = await axiosInstance.get('/api/user', {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     });
 
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error.response?.data?.errorMessage ||
-        '유저 정보를 불러오는데 실패했습니다.',
-    );
-  }
-};
+//     return response.data;
+//   } catch (error: any) {
+//     throw new Error(
+//       error.response?.data?.errorMessage ||
+//         '유저 정보를 불러오는데 실패했습니다.',
+//     );
+//   }
+// };
