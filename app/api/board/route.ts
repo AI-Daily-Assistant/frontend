@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axiosInstance from '../../../shared/api/apiRequest';
+import axiosInstance from '../../../src/shared/api/apiRequest';
 
 if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
   import('@/../mocks/server').then(({ server }) => {
