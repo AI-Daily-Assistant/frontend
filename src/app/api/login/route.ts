@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import axiosInstance from '../apiRequest';
 
+if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
+  import('@/../mocks/server').then(({ server }) => {
+    server.listen();
+    console.log('MSW server-side mocking enabled');
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { formData } = await req.json();
@@ -15,10 +22,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 로그인 요청 보내기
-    const response = await axiosInstance.post('/api/auth/login', {
-      email,
-      password,
-    });
+    const response = await axiosInstance.post('/api/auth/login', formData);
 
     const { accessToken, refreshToken } = response.data;
 

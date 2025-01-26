@@ -11,8 +11,9 @@ export default function BoardLists() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const data = await apiRequest('GET', '/api/board');
-        setPosts(data.boards);
+        const res = await apiRequest('GET', '/api/board');
+        setPosts(res);
+        console.log('post@@@@@@@@@@@@@@@@@@@@@@', res);
       } catch (err: any) {
         setError(err.message);
       } finally {

@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axiosInstance from '../apiRequest';
 
+if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
+  import('@/../mocks/server').then(({ server }) => {
+    server.listen();
+    console.log('MSW server-side mocking enabled');
+  });
+}
+
 export async function GET(req: NextRequest) {
   try {
     const accessToken = req.headers.get('Authorization')?.split('Bearer ')[1];
-
-    if (!accessToken) {
-      return NextResponse.json(
-        { error: 'accessToken이 존재하지 않습니다.' },
-        { status: 400 },
-      );
-    }
 
     const response = await axiosInstance.get('/api/member/info', {
       headers: {

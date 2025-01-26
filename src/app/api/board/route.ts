@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axiosInstance from '../apiRequest';
 
+if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
+  import('@/../mocks/server').then(({ server }) => {
+    server.listen();
+    console.log('MSW server-side mocking enabled');
+  });
+}
+
 export async function GET(req: NextRequest) {
   try {
     const accessToken = req.headers.get('Authorization')?.split('Bearer ')[1];
-
     const response = await axiosInstance.get('/api/board/all', {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     return NextResponse.json(response.data, { status: response.status });
@@ -41,11 +49,12 @@ export async function POST(req: NextRequest) {
 
     const response = await axiosInstance.post(
       '/api/board',
+      { title, content },
       {
-        title,
-        content,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-      { headers: { Authorization: `Bearer ${accessToken}` } },
     );
 
     return NextResponse.json(response.data, { status: response.status });
