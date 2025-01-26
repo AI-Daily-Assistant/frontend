@@ -17,21 +17,3 @@ export const loginUser = async (formData: LoginData) => {
     );
   }
 };
-
-// 유저 정보 반환
-export const getUserInfo = async (accessToken: string) => {
-  try {
-    const response = await axiosInstance.get('/api/user', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error.response?.data?.errorMessage ||
-        '유저 정보를 불러오는데 실패했습니다.',
-    );
-  }
-};

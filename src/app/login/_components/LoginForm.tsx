@@ -2,7 +2,8 @@
 
 import { apiRequest } from '@/app/api/axiosInstance';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { loginUser } from '../api';
 
 interface FormData {
   email: string;
@@ -16,8 +17,6 @@ export default function LoginForm() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<{ accessToken: string } | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const router = useRouter();
 
@@ -35,10 +34,14 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const response = await apiRequest('POST', '/api/login', formData);
+      const response = await loginUser(formData);
+
       if (response.accessToken) {
-        setData(response);
-        setIsSuccess(true);
+        sessionStorage.setItem('accessToken', response.accessToken);
+        const userInfo = await apiRequest('GET', '/api/user');
+        console.log('User Info:', userInfo);
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        router.push('/');
       }
     } catch (err) {
       setError('Failed to login. Please check your credentials.');
@@ -46,24 +49,6 @@ export default function LoginForm() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isSuccess && data?.accessToken) {
-      const getUserInfoWithAccessToken = async () => {
-        try {
-          sessionStorage.setItem('accessToken', data.accessToken);
-          const userInfo = await apiRequest('GET', '/api/user');
-          console.log('User Info:', userInfo);
-          localStorage.setItem('userInfo', JSON.stringify(userInfo));
-          router.push('/');
-        } catch (error) {
-          console.error('Failed to fetch user info:', error);
-        }
-      };
-
-      getUserInfoWithAccessToken();
-    }
-  }, [isSuccess, data, router]);
 
   return (
     <div className='flex flex-col'>

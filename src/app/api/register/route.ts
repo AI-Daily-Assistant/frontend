@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axiosInstance from '../axiosInstance';
 
+if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
+  import('@/../mocks/server').then(({ server }) => {
+    server.listen();
+    console.log('MSW server-side mocking enabled');
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { formData } = await req.json();
