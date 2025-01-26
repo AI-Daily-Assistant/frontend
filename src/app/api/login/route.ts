@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import axiosInstance from '../axiosInstance';
+import axiosInstance from '../apiRequest';
 
 if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
   import('@/../mocks/server').then(({ server }) => {

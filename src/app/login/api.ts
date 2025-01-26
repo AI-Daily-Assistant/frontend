@@ -1,4 +1,4 @@
-import axiosInstance from '../api/axiosInstance';
+import axios from 'axios';
 
 interface LoginData {
   email: string;
@@ -7,7 +7,7 @@ interface LoginData {
 
 export const loginUser = async (formData: LoginData) => {
   try {
-    const response = await axiosInstance.post('/api/login', {
+    const response = await axios.post('/api/login', {
       formData,
     });
     return response.data;

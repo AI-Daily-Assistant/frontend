@@ -29,7 +29,7 @@ export const apiRequest = async (
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
       },
-      params: HTTPMethod === 'GET' ? param : undefined,
+      params: HTTPMethod === 'GET' && param ? param : undefined,
     };
 
     let response: AxiosResponse;

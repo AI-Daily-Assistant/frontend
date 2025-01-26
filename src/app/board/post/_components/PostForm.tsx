@@ -1,6 +1,6 @@
 'use client';
 
-import { apiRequest } from '@/app/api/axiosInstance';
+import { apiRequest } from '@/app/api/apiRequest';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

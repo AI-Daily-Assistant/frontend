@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiRequest } from '@/app/api/axiosInstance';
 import { registerUser } from '../api';
 
 interface FormData {

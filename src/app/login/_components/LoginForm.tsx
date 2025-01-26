@@ -1,6 +1,7 @@
 'use client';
 
-import { apiRequest } from '@/app/api/axiosInstance';
+import { apiRequest } from '@/app/api/apiRequest';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginUser } from '../api';
@@ -35,7 +36,6 @@ export default function LoginForm() {
 
     try {
       const response = await loginUser(formData);
-
       if (response.accessToken) {
         sessionStorage.setItem('accessToken', response.accessToken);
         const userInfo = await apiRequest('GET', '/api/user');
