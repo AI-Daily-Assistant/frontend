@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { menuItems } from '@/data/layouts/menuItems';
 import Link from 'next/link';
 import MenuItems from './MenuItems';
 import MobileMenuItems from './MobileMenuItems';
+import { menuItems } from '../data/menuitems';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

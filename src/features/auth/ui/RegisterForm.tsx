@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerUser } from '@/features/auth/index';
+import { registerUser } from '../api/registerUser';
 
 interface FormData {
   email: string;
@@ -38,7 +38,7 @@ export default function RegisterForm() {
 
     try {
       await registerUser(formData);
-      alert('Registration successful!');
+      alert('회원가입을 완료하였습니다.');
       setFormData({
         email: '',
         password: '',

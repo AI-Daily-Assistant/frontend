@@ -1,6 +1,6 @@
 'use client';
 
-import { apiRequest } from '@/shared/api/apiRequest';
+import { apiRequest } from '@/src/shared/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

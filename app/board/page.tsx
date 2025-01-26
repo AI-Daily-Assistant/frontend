@@ -1,5 +1,5 @@
+import { BoardLists } from '@/src/features/board';
 import Link from 'next/link';
-import BoardLists from './_components/BoardLists';
 
 export default function BoardPage() {
   return (

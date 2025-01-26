@@ -1,8 +1,8 @@
+import axiosInstance from '@/src/shared/api/axiosInstance';
 import { NextRequest, NextResponse } from 'next/server';
-import axiosInstance from '../../../src/shared/api/apiRequest';
 
 if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
-  import('@/../mocks/server').then(({ server }) => {
+  import('@/mocks/server').then(({ server }) => {
     server.listen();
     console.log('MSW server-side mocking enabled');
   });

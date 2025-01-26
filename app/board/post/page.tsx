@@ -1,4 +1,4 @@
-import PostForm from './_components/PostForm';
+import { PostForm } from '@/src/features/board';
 
 export default function BoardPostPage() {
   return (

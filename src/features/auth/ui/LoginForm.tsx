@@ -1,9 +1,9 @@
 'use client';
 
-import { apiRequest } from '@/shared/api/apiRequest';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { loginUser } from '@/features/auth/index';
+import { loginUser } from '../api/loginUser';
+import { apiRequest } from '@/src/shared/api';
 
 interface FormData {
   email: string;
@@ -38,8 +38,8 @@ export default function LoginForm() {
       if (response.accessToken) {
         sessionStorage.setItem('accessToken', response.accessToken);
         const userInfo = await apiRequest('GET', '/api/user');
-        console.log('User Info:', userInfo);
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        alert('로그인을 성공했습니다.');
         router.push('/');
       }
     } catch (err) {

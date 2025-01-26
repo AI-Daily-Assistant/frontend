@@ -1,8 +1,8 @@
+import axiosInstance from '@/src/shared/api/axiosInstance';
 import { NextRequest, NextResponse } from 'next/server';
-import axiosInstance from '../../../src/shared/api/apiRequest';
 
 if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
-  import('@/../mocks/server').then(({ server }) => {
+  import('@/mocks/server').then(({ server }) => {
     server.listen();
     console.log('MSW server-side mocking enabled');
   });
@@ -10,7 +10,7 @@ if (process.env.NEXT_PUBLIC_MOCK_API === 'true') {
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.json();
+    const { formData } = await req.json();
 
     console.log('테스트', formData);
 
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ errors }, { status: 400 });
     }
 
-    const response = await axiosInstance('/api/auth/register', formData);
+    const response = await axiosInstance.post('/api/auth/register', formData);
 
     // 백엔드 API의 응답 반환
     return NextResponse.json(response.data, { status: response.status });
