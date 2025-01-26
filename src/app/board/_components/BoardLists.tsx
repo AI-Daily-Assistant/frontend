@@ -1,6 +1,6 @@
 'use client';
 
-import { apiRequest } from '@/app/api/apiRequest';
+import { apiRequest } from '@/shared/api/apiRequest';
 import { useEffect, useState } from 'react';
 
 export default function BoardLists() {
