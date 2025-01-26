@@ -1,10 +1,9 @@
 'use client';
 
 import { apiRequest } from '@/app/api/apiRequest';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { loginUser } from '../api';
+import { loginUser } from '@/features/auth/index';
 
 interface FormData {
   email: string;

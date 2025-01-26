@@ -7,7 +7,6 @@ interface RegisterUser {
   age: number;
 }
 
-// 회원가입 요청
 export const registerUser = async (formData: RegisterUser) => {
   try {
     const response = await axios.post('/api/register', {

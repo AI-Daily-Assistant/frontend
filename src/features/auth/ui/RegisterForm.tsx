@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerUser } from '../api';
+import { registerUser } from '@/features/auth/index';
 
 interface FormData {
   email: string;
